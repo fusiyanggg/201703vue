@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">{{val}}</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+//        el: "#app",
+        data: {
+            val: 'haha'
+        },
+        beforeCreate(){//一般永不倒
+            alert('创建之前')
+            console.log(this,'bc')
+        },
+        created(){ //初始化一些数据，进行ajax调用，
+            alert('创建之后')
+            console.log(this,'c')
+
+        },
+        beforeMount(){ //是挂载到el上的，不指定el则不挂在
+            console.log('挂在前');
+            console.log(this,'bm')
+
+        },
+        beforeUpdate(){//当页面上的内容发生变化，就会调用此函数。一般不用，有watch
+            console.log('更新前');
+            console.log(this,'bu')
+
+        },
+        updated(){
+            console.log('更新后');
+            console.log(this,'u')
+
+        },
+        mounted(){
+            console.log('挂在后');
+            console.log(this,'m')
+
+            this.val = 'over'
+        },
+        beforeDestroy(){
+            console.log(this,'bd')
+
+            alert('销毁钱')
+        },
+        destroyed(){
+            alert('销毁后')
+            //会执行的事：清除定时器，移除事件监听
+            console.log(this,'d')
+
+        }
+
+    });
+    vm.$mount('#app');//手动挂载  == el:'#app'  (没有区别)
+    vm.$destroy(); //会将事件绑定的数据销毁，不会导致html的变化
+</script>
+</body>
+</html>

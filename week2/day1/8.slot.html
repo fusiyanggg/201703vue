@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div id="app">
+    <alert>
+
+    </alert>
+</div>
+<template id="alert">
+    <div class="alert alert-danger">sdafasdf</div>
+</template>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        components: {
+            alert: {
+                template: '#alert'
+            }
+        }
+    })
+</script>
+</body>
+</html>

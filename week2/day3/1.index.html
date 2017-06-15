@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6的导入</title>
+</head>
+<body>
+<div>
+    hello world
+    <!--不同于node环境， 浏览器的导出有些不同-->
+    <pre>
+    三部曲：
+        1. 将写好的js模块要导出的用export关键字操作 (3种导出方法)；
+        2. html页面要引用的js文件通过import 关键字导入模块 (3种导入方式)
+        3. 引入转译器traceur编译es6模块使export和import关键字生效在浏览器生效 (3个文件)
+        final. 指定script标签的type类型为module
+    </pre>
+
+</div>
+<!--添加下面三个js文件才能使导入模块生效-->
+<script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+<script src="https://google.github.io/traceur-compiler/bin/BrowserSystem.js"></script>
+<script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+
+<!--必须指定标签的type属性为module模块类型-->
+<script src="1.import.js" type="module"></script>
+
+<!--<script src="end.js" type="module"></script>-->
+</body>
+</html>

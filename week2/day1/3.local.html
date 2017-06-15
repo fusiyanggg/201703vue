@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>局部注册组件</title>
+    <style>
+        div {
+            border: 1px solid red;
+            margin: 50px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--vue 提供的template语法  默认template是无意义的-->
+    <!--局部组件-->
+</div>
+
+<template id="parent">
+    <div>
+        <div>
+            hello world
+        </div>
+        <div>
+            <!--子组件需要在父级的模板中插入使用-->
+            在父组件中注册子组件:
+            <Child></Child>
+        </div>
+        <div>
+            在父组件中注册子组件:
+            <second-child/>
+        </div>
+
+        <third-child></third-child>
+
+        <use-data></use-data>
+    </div>
+</template>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    var Child = {
+        template: '<div>Im child component</div>'
+    };
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            pMsg: 'hello'
+        },
+        //模板过长的时候可以提取出来 用vue提供的template标签来编写模板，通过标签内的‘id选择器’来引用。
+        template: '#parent',
+        //局部注册组件：使组件仅在一个 ‘实例/组件’ 的作用域中可用
+        components: {
+            //组件名,引用外部对象;等价于=> Child:{template:'<div>...</div>'}
+            //在components对象中的每个key名即为组件名->自定义标签名
+            Child,
+            //推荐写法。自定义标签使用短横线命名法
+            'second-child': {
+                template: '<div>Im second-child component</div>'
+            },
+            //vue支持驼峰命名组件，但是调用时还是要使用短横线命名法调用;[html标签规范]
+            thirdChild: {
+                template: '<div>Im third-child component</div>'
+            },
+            useData: {
+                template: '<h2>子组件调用父级数据: {{pMsg}}</h2>', // 会报错,因为组件间数据不互通
+                //在子组件中定义自己的data，与父级不同的是，data应该是个函数，而不是对象，防止数据相；
+                //函数的返回值是个对象，作为子组件的数据集合。
+                //每个组件都是独立的vue组件实例对象，组件中的this指向组件本身。
+                data(){
+                    console.log(this.$parent);//每个子组件通过这个对象指向付组件
+                    return {
+                        cMsg: '-我是子组件的数据',
+                        age: 9
+                    }
+                }
+            }
+
+
+        }
+    })
+</script>
+</body>
+</html>

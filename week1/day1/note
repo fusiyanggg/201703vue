@@ -1,0 +1,27 @@
+    ###打开cmd;
+    a) npm install bower -g  //->>全局下安装bower
+    b) bower info vue        //->>查看vue的信息
+    [还可通过'npm install vue' 安装]
+
+## Vue
+专注前端的框架；
+    MVC：
+        M model   数据或模板-数据库
+        V view    视图
+        C control 后台业务语言写的node php java
+
+    MVC是一种模式更是一种思想。他的应用不仅仅局限于我们的前后端整体架构。在我们单纯的前端也可以使用;
+    M 处理数据专门写处理数据的js;
+    V 专门的进行DOM操作;
+    C 专门写交互。
+
+    　　利用mvc思想实现前端主流框架，是react，但是他是一个不完整mvc框架;他主要做的是前端view层优化，实现了并不是直接控制我们的dom，
+    而是产生虚拟dom对象，在我们的没有真正完成我们的DOM结构处理的时候，他都是一直处理的我们虚拟DOM，当开发者真正处理好我们的dom业务的
+    通过render在真正添加我们的dom中对真实dom做出修改；
+
+    前端 MVVM 思想实现框架  Vue 、 NG
+        MVVM：
+            M 　model      　数据
+            V　 view　　　　　前端视图
+            VM　view　model　数据视图：视图和数据的链接器，中转和沟通的媒介模板，（数据的双向绑定）；
+          通过我们VM思想，在我们的html中的数据发生改变的时候，我们的js对象中的数据也发生了改变

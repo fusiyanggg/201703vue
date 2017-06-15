@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            margin: 10px;
+            border: 3px solid lightblue;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--v-for 想循环谁，就再谁上面加v-for属性-->
+    <ul>
+        <li v-for="val of fruits">{{val}}</li>
+        <li v-for="(val,index) in fruitsobj">{{val}}{{index+1}}</li>
+    </ul>
+
+    <hr>
+    <ul>
+        <li v-for="(fruit,index) in fruitsobj">{{fruit.name}}
+            <ul>
+                <li v-for="(v,p) in fruit.color">
+                    {{index}}.{{p}} {{v}}
+
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            fruits: ['香蕉', 'apple', 'watermelon', 'bray'],
+            fruitsobj: [
+                {name: '香蕉', color: ['green', 'yellow']},
+                {name: 'apple', color: ['red', 'green']},
+                {name: 'watermelon', color: ['green', 'yellow']}
+            ]
+        }
+
+    })
+</script>
+</body>
+</html>

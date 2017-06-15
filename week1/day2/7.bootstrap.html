@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=', user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+</head>
+<body>
+<!--基础样式 和 增强样式-->
+<a href="asdf">aldfhasdflasdf</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <caption class="h1 text-danger text-center">
+                    <!--这是表头-->
+                    商品购物列表
+                </caption>
+
+                <tr>
+                    <th>商品名称</th>
+                    <th>商品价格</th>
+                    <th>商品数量</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="product in products">
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td><input type="text" v-model="product.count"></td>
+                    <td>
+                        <button class="btn btn-danger btn-xs" @click="remove(product)">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">总价 {{sum()}}</td>
+                </tr>
+
+            </table>
+
+            <form>
+                <div class="form-group">
+                    <label for="productName" class="control-label">商品名称</label>
+                    <input @keyup.enter="a" v-model="productName" type="text" id="productName" class="form-control"
+                           placeholder="请输入商品名称">
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">商品价格</label>
+                    <input v-model="productPrice" type="text" id="productPrice" class="form-control"
+                           placeholder="请输入价格">
+                </div>
+                <div class="form-group">
+                    <input @click="add" type="button" value="添加" class="btn btn-primary">
+                    <input type="button" value="重置" class="btn btn-warning">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '.container',
+        data: {
+            //1.将数据渲染到页面上
+            products: [
+                {
+                    name: 'dog',
+                    price: 300,
+                    count: 1
+                },
+                {
+                    name: 'cat',
+                    price: 200,
+                    count: 2
+                },
+                {
+                    name: 'pig',
+                    price: 1200,
+                    count: 1
+                },
+            ],
+            productName: '',
+            productPrice: ''
+        },
+
+        //2.点击删除按钮删除数据 ，奠基石将这条数据传递过来，做过滤
+        methods: {
+            remove(product){
+                this.products = this.products.filter((item) => {
+                    return item !== product;
+                });
+            },
+
+            //3. 总价 是个函数 {{sum()}} 求价格和数量的总和 reduce
+            sum(){
+//                    console.log('summmmmm');
+                return this.products.reduce(function (prev, next, index, ary) {
+                    return prev + next.price * next.count;
+                }, 0)
+            },
+            //4.add 实现增加功能
+            add(){
+                //获取两个输入框中的内容，将内容插入到数组中
+                console.log(1);
+                let product = {
+                    name: this.productName,
+                    price: this.productPrice,
+                    count: 1
+                };
+
+                this.products.push(product);
+                this.reset();
+            },
+            reset(){
+                this.productName = this.productPrice = '';
+
+            },
+            a(){
+                alert(1);
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

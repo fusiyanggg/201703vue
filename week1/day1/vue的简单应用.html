@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--行内属性：对应的是vue的js对象属性名，实质是获取的vue的js对象的属性名对应的属性值。-->
+<div id="app" v-bind:title="message">
+    鼠标悬停你会看到值的变化
+    <span v-if="see">我是一个可看的值</span>
+</div>
+
+<div id="app2">
+    <ul>
+        <li v-for="(item,index) in list" track-by="$index">
+            {{index}}
+        </li>
+    </ul>
+</div>
+
+<div id="app3">
+    <div v-on:click="ale">
+        {{message}}
+    </div>
+</div>
+
+<div id="app4">
+    <input type="text" v-model="message">
+    <p>{{message}}</p>
+</div>
+
+<div id="app5">
+    <ul>
+        <todo-item v-for="items in list" v-bind:todo="items"></todo-item>
+    </ul>
+</div>
+
+</body>
+</html>
+<script>
+    // 在我们的是上面代码我们看到了一个新的字符，v-bind，这是一个vue指令，v-指令前缀，代表vue，就像$代表我们的jquery一样，来表示这个是vue提供特殊行内属性。
+
+
+    // 应用了指令会在DOM绑定特殊的响应式行为。这个指令的意思就是我对当前DOM的title通过vue指令，来设置了title属性值等于我们vue的js实例中的messge属性值；
+
+    // vue的for循环;
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            list: [
+                'a', 'a', 'a'
+            ]
+        }
+    });
+    // vue的事件监听，vue有一个methods属性，保存我们的所有方法，
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            message: '请点击我吧！'
+        },
+        methods: {
+            ale: function () {
+                // 在构造函数中的this指向我们的实例
+                // this代表vue实例，每个实例上的属性，和data对象对应的属性，都可以通过实例直接访问;
+                this.message = '我被点穴了'
+            }
+        }
+    });
+
+    // vue提供了model指令，模拟指令，添加了v-model指令的标签，他的值会冒充我们任意vue变量的值，来动态控制我们的DOM元素以及vue对象中对应的变量的值
+    var app4 = new Vue({
+        el: '#app4',
+        data: {
+            message: '这是模板数据'
+        }
+    });
+    // vue 可以不在实例的时候进行我们的元素的绑定，也可以在我们vue实例化结束后手动挂载我们的元素$mount; app.$mount('#box')
+    // vue 还可以自定义配置项属性，我们可以通过app.$option.自定义属性进行
+
+
+    // vue实例化中固定的几个方法属性
+    // vue怎么查看私有变量，和私有属性
+</script>

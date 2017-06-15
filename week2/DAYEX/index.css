@@ -1,0 +1,15 @@
+.back {
+    background: #f00;
+}
+
+.color {
+    color: blue;
+}
+.bigtext {
+    font-size: large;
+    font-weight: 300;
+}
+.bcolor{
+    color:yellow;
+    background: #000;
+}

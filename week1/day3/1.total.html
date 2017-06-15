@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+
+</head>
+<body>
+<div id="app">
+    价格 :{{price}} <br>
+    姓名 :<input type="text" v-model="name"> <br>
+    数量 :<input type="text" v-model="count"> <br>
+    <!--总价 ：{{sum()}}    computer下sum是一个属性-->
+    总价 ：{{sum}}
+
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            price: 30,
+            name: 'dog',
+            count: 1
+        },
+//      methods: {
+//          sum(){
+//              console.log('sum');    //->修改name属性时也会导致sum执行，性能浪费 可以替换为computed
+//              return this.price*this.count
+//          }
+//      },
+        computed: {
+//          sum(){  //->>sum虽然写成了函数，但他依然是一个属性 ,他的真正写法如下
+//              console.log('sum');
+//              return this.price * this.count
+//          },
+// =============================================================================
+            // 属性由两部分组成 set  get
+            sum: {
+                get(){
+                    return this.price * this.count;//根据price和count计算来的
+                },
+                set(val){//设置sum的值
+                    console.log(val); //在set中可以去影响其他值的改变
+                    this.name = val;
+                }
+            },
+            /*sum(){  //这样写 默认调用了 get方法
+             return this.price*this.count;
+             }*/
+            //================================
+        }
+
+
+    })
+</script>
+</body>
+</html>

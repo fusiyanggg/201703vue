@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通过路径传递参数</title>
+</head>
+<body>
+<div id="app">
+
+    <router-link to="/article/123/hah" tag="li">文章</router-link>
+    <router-view></router-view>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let Article = {
+        template: '<div>第{{id}}章 名字是{{name}}</div>',
+        computed: {
+            id(){
+                return this.$route.params.articleId
+            },
+            name(){
+                return this.$route.params.name
+            }
+        }
+    };
+    let routes = [
+        //: 代表的是:此处路径必须有，但是可以随机的,当路径真实访问的时候为：/article/998/john
+
+        {path: '/article/:articleId/:name', component: Article}
+    ];
+
+    let router = new VueRouter({
+        routes,
+//      mode:'history'
+    });
+    let vm = new Vue({
+        el: '#app',
+        router //加载了router组件 vm就扩充了一些属性-> this.$route(调用属性)   this.$router(调用方法) (this==vm)
+
+    })
+</script>
+</body>
+</html>

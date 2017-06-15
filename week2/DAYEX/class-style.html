@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../week1/day3/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../../week1/day3/node_modules/vue/dist/vue.js"></script>
+    <!--<style>-->
+        <!--.back {-->
+            <!--background: #f00;-->
+        <!--}-->
+
+        <!--.color {-->
+            <!--color: blue;-->
+        <!--}-->
+        <!--.bigtext {-->
+            <!--font-size: large;-->
+            <!--font-weight: 300;-->
+        <!--}-->
+        <!--.bcolor{-->
+            <!--color:yellow;-->
+            <!--background: #000;-->
+        <!--}-->
+
+    <!--</style>-->
+    <link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+<div id="app">
+    <div :class="{back:flag,color:!flag}">zfaf</div>
+    <div v-bind:class="{back:!flag,color:flag}">asdfasdf</div>
+    <div :class="[font,fontColor]">数组形式绑定class</div>
+    <hr>
+    <div :style="{background:'blue',color:'white'}">行内绑定样式</div>
+    <div :style="[s1,s2]">数组方式绑定样式</div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            fontColor:'bcolor',
+            font:'bigtext',
+            flag: false,
+            s1:{
+                fontSize:'50px',
+                borderRadius:'10px',
+                border:'3px solid red',
+                margin:'10px',
+                paddingLeft:'20px'
+            },
+            s2:{
+                color:'purple',
+                backgroundColor:'#4e8'
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

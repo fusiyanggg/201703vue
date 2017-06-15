@@ -1,0 +1,12 @@
+{
+  "name": "day2",
+  "version": "1.0.0",
+  "description": "pop push shift unshift slice splice sort foreach join concat reverse indexOf\r ## map forEach find some filter reduce 这些都是项目中取代上述常用方法的",
+  "main": "1.arr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

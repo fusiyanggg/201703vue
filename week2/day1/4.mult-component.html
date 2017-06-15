@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件嵌套练习</title>
+    <style>
+        div {
+            border: 1px solid red;
+            margin: 50px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>组件嵌套练习</h1>
+<div id="app">
+    <!--<fruits/>-->
+</div>
+
+<template id="fruits">
+    <h2> 水果
+        <sweet-fruits>
+        </sweet-fruits>
+        <sour-fruits/>
+    </h2>
+</template>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    // 内置嵌套组件
+    //    var vm = new Vue({
+    //        template: '<fruits/>', //根组件，根据模板会替换调被挂载的元素
+    //        components: {
+    //            fruits: {
+    //                template: '<h2>水果 <div><sweet-fruits/> <sour-fruits/></div> </h2>',
+    //                components: {
+    //                    'sweet-fruits': {
+    //                        template: '<div>甜水果 <water-melon/> </div>',
+    //                        components: {
+    //                            waterMelon: {
+    //                                template: '<div>西瓜</div>'
+    //                            }
+    //                        }
+    //                    },
+    //                    'sour-fruits': {
+    //                        template: '<div>酸水果</div>'
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    });
+    //    vm.$mount('#app')
+</script>
+<script>
+    // 使用template标签套用模板
+    //    var vm = new Vue({
+    //        el: "#app",
+    //        template: '#fruits',
+    //        components: {
+    //            'sweet-fruits': {
+    //                template: '<div>甜水果 <water-melon></water-melon></div>',
+    //                components: {
+    //                    'water-melon': {
+    //                        template: '<div>西瓜</div>'
+    //                    }
+    //                }
+    //            },
+    //            'sour-fruits': {
+    //                template: '<div>酸的</div>'
+    //            }
+    //        }
+    //    })
+</script>
+<script>
+    var waterMelon = {
+        template: '<div>西瓜</div>'
+    };
+    var sweetFruits = {
+        template: '<div>甜水果<water-melon/></div>',
+        components: {
+            waterMelon
+        }
+    };
+    var sourFruits = {
+        template: '<div>酸水果</div>'
+    };
+
+    var fruits = {
+        template: '<div>水果<sweet-fruits></sweet-fruits><sour-fruits></sour-fruits></div>',
+        components: {
+            sweetFruits,
+            sourFruits
+        }
+    };
+    var vm = new Vue({
+        el: '#app',
+        template: '<fruits/>', //根组件中，一般存放一个单个的组件(这样写会替换掉<#app标签>) ，也可以在#app标签内部写定义好的模板标签，这样#app会被保留
+        components: {
+            fruits
+        }
+    })
+</script>
+</body>
+</html>

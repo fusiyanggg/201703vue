@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-router</title>
+    <style>
+        /*vue-router提供的css样式 实现导航的激活样式*/
+        .router-link-active {
+            color: red
+        }
+
+        .page {
+            width: 100px;
+            height: 100px;
+            background-color: #f90;
+            margin: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<!--single page app 单页应用，只有一个页面只是切换页面的内容，两种方式：-->
+<!--1. hash  -> #/home-->
+<!--2. h5自带的 history   ->/home   需要服务器端支持       -->
+
+<div id="app">
+    <!--将组件放在最近的router-view中，当路径切换时，相应的组件会替换掉router-view -->
+    <!--vue-router提供的组件 （这是声明式导航）-->
+    <router-link to="/home?id=1">主页</router-link>
+    <!--必须定义组件的to属性，表明链接到的路由地址，还可以添加query-->
+    <!--通过tag属性还可以指定link的标签类型，查看源码可知link组件默认定义了点击事件-->
+    <router-view></router-view>
+    <router-link to="/list" tag='li'>列表</router-link>
+    <router-link v-bind:to='myurl' tag='li'>列表2</router-link>
+    <!--通过绑定 to 给to传递对象作为参数实现变量传值-->
+</div>
+<!--先引入vue 才有vue-router -->
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    //声明组件,组件一般大写
+    let Home = {template: '<div class="page" style="background: red">首页</div>'};
+    let List = {template: '<div class="page">列表</div>'};
+    let List2 = {template: '<div class="page" style="background: blue">列表2</div>'};
+
+    let routes = [ //专门维护路由匹配规则的数组
+        {path: '/home', component: Home},
+        {path: '/list', component: List},
+        {path: '/list2', component: List2},
+    ];
+
+    // VueRouter 实例化需要传入一个对象，用来设计规则的，不同的路径： 展示不同的页面
+    let router = new VueRouter({
+        routes
+//      routes: [//数组里放一条条的规则
+//          {path: '/home', component: Home},//router的组件 这没 s 了;注意拼写规范
+//          {path: '/list', component: List},
+//      ]
+//      mode:'history' ※浏览器自带的模式，上线时一般使用这种模式
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        router, // router:router 可简写为 router:对象名和对象值相同时可以简写
+        data: {
+            myurl: {path: '/list2', query: {id: 3}}
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件间数据的传递</title>
+    <style>
+        div {
+            padding: 5px;
+            border: 1px solid red;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--需求：子组件显示父组件的数据，通过props实现-->
+    <!--父向子传递数据,通过属性传递；在父的空间上对组件模板声明一个属性 fage='age' 传给了child，这时的数据为一个字符串-->
+    <!--通过v-bind:将一个父组件数据动态绑定到子组件-->
+    <child fname="name" :fmsg="msg" :fage="age"/>
+</div>
+
+<template id="tem">
+    <div @click="addAge">
+        {{fname}} {{fmsg}} {{fage}} <br/>
+        本地化的数据：{{turnLocalData}}
+    </div>
+</template>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+
+    var Child = {
+        // 子组件需要先在props里面注册期望的数据属性名,再通过插值名来获取到传入的数据
+        template: '#tem',
+//            '<div @click="addAge">{{fname}} {{fmsg}} {{fage}} <br/> 本地化的数据：{{turnLocalData}}</div>',
+        data(){
+            return {
+                name: '我是儿子',
+                msg: '子组件的数据',
+                age: 18, //不能声明和props相同的属性，会被覆盖掉
+
+                turnLocalData: this.fage //可以定义一个局部变量，并用 prop 的值初始化它；
+            }
+        },
+        //方式一，通过数组来保存要获得的数据名单
+        props: ['fage', 'fmsg', 'fname'],//父亲通过属性传递，会默认将当前传递的属性声明到当前组件上
+        methods: {
+            addAge(){
+                //todo 这里怎么改用computed
+                this.fage += 1; //在vue不能直接操作父亲传递过来的属性；
+                // 1. 可以定义一个局部变量，并用 prop 的值初始化它；
+                this.turnLocalData += 1;
+                // 2. 定义一个计算属性，处理 prop 的值并返回。
+            }
+        },
+//        computed: {
+//            cp(){
+//                return this.fage += 1;
+//            }
+//        }
+        //方式二，通过对象形式可以校验数据
+//        props:{
+//            a:{ //一般都会校验传递过来的属性
+//                //:a="1" 会把内容转化成变量 不在是字符串1
+//                type:[Number],// 会默认校验传递过来的属性类型
+//                default:200,//拦截属性没有传递的时候 可以使用默认值
+//                /* validator(val){ //一般情况下使用validator 就不需要type了
+//                 //如果返回true表示 通过 ，返回false就不通过
+//                 return val===2;
+//                 }*/
+//            },
+//            b:{}
+//        }
+
+    };
+
+    let vm = new Vue({ //father component
+        el: '#app',
+        data: {
+            msg: '父组件数据',
+            age: 88
+        },
+        components: {
+            Child
+        }
+    })
+</script>
+<script src="ignore">
+    //父向子传递数据只有通过属性传递
+    let fruit = {
+            template: `<div>{{a}} {{b}} {{c}}</div>`,
+            props: {
+                a: {
+                    type: [String],
+                    default: 200
+                },
+                b: {//校验器
+                    validator(val){
+                        //返回true的话则校验通过，不通过则抛出异常
+                        return val === 'string'
+                    }
+                },
+                c: {
+                    default: '调用默认值'
+                }
+
+            }
+        }
+    ;
+
+    let vm = new Vue({ //father component
+        el: '#app',
+        data: {
+            msg: 'hello',
+            age: 8
+        },
+        template: '<fruit a="1"  b="string" ></fruit>', //如果要调用父类的数据传给子类，需要在标签中用v-bind绑定，这样传递的数据就不是字符串而是变量的形式了，如果还需要传字符串的话需要嵌套单引号，但是在这里由于在template中，外层包裹了单引号。所以无效，需要将template中的内容直接写到根元素中
+        components: {
+            fruit
+        }
+    })
+</script>
+</body>
+</html>

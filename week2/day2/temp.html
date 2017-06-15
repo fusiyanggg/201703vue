@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由嵌套</title>
+</head>
+<body>
+<div id="app">
+    <router-link to="/fruit">水果</router-link>
+    <router-link to="/drink">饮料</router-link>
+    <router-view></router-view>
+</div>
+
+<template id="fruit">
+    <div>水果s
+        <router-link to="/fruit/sweet">甜水果</router-link>
+        <router-link to="/fruit/no-sweet">酸水果</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let Sweet = {template: '<div>甜西瓜 甜水果 </div>'};
+    let NoSweet = {template: '<div>酸的 西红柿<div>'};
+
+    let Fruit = {template: '#fruit'};
+    let Drink = {template: '<div>饮料s</div>'};
+    let Redirct = {template: '<div>重定向</div>'};
+    let Default = {template: '<div>默认页</div>'};
+    let Notfound = {template: '<div>404!</div>'};
+    let routes = [
+//      3.默认配置一个路径的展示 ->删除浏览器路径的path 默认加载一个组件
+//        {path: '', component: Default},
+
+        {
+            path: '/fruit',
+            component: Fruit,
+            children: [
+                {path: 'sweet', component: Sweet},
+                {path: 'no-sweet', component: NoSweet}
+            ]
+        },
+        {path: '/drink', component: Drink},
+//     1 重定向 /路径 转到 '/dink'
+//        {path: '/', redirect: '/drink'},
+//      2. 通配符路径
+//        {path: '*', component: Fruit},
+
+    ];
+    let router = new VueRouter({
+        routes
+    });
+    let vm = new Vue({
+        el: '#app',
+        router
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #app {
+            font-size: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<!--<div id="app">-->
+<!--{{msg}}-->
+<!--</div>-->
+<div id="app">
+    <!--v-text 的简写 {{ }}-->
+    <div v-text="num++">
+    </div>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    //vue 的实例可以创建多个，但是正常的情况下只有一个
+    //    let vm = new Vue({
+    //        el:'#app',
+    //    });
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            //数据类型有哪些：number string boolean null undefined object[array function]
+            msg: 'hello',
+            num: 1
+        }
+    })
+</script>
+</body>
+</html>

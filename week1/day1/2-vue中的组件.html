@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <ol>
+        <!-- 现在我们为每个todo-item提供待办项对象    -->
+        <!-- 待办项对象是变量，即其内容可以是动态的 -->
+        <!--bind 后边我们自定义一个变量，让这个变量等于我们vue实例中的一个变量，那么我们的模板中就可以调用实例中的变量了-->
+
+        <!--我们创建通过vue内置的v-bind方法定义一个属性可以给属性赋值我们vue实例中的任意变量，或者说是实例的属性-->
+        <todo v-for="item in list" v-bind:items="item" v-bind:a="message"></todo>
+    </ol>
+</div>
+</body>
+</html>
+<script src="./js/vue.js"></script>
+<script>
+    Vue.component('todo', {
+        template: '<p>{{items}}<span>{{a}}</span></p>',
+        props: ['items', 'a']
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            list: [1, 2, 3],
+            message: '这是一个测试数据'
+        }
+    })
+
+
+</script>

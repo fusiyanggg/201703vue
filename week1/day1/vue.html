@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="one" v-if="see" v-bind:title="msg" v-on:mouseleave="fn">
+        <p>{{msg}}</p><!--{{}} 这是vue表达式的写法，必须用我们定界符{{}}包含才能正常输出我们的vue变量，vue实例的一个属性-->
+    </div>
+
+    <div id="two">
+        <p v-for="item in lists"> {{item.text}}</p>
+        <!--你循环的谁就在哪个元素添加我们v-for指令-->
+        <!--vue中无论是js对象中的属性和我们html结构中属性和变量，都可以互相调用-->
+    </div>
+
+
+
+</body>
+</html>
+<script src="../vue2.js"></script>
+<script>
+    //vue的代码，进行vue的实例化
+    //el属性的作用，就是跟我们vue实例化的js对象，把html结构实例化到我们的jsvue对象（实例）中，实例化后的dom节点包括他的子节点，都是vue的dom节点了，他们都可以调用vue'方式和属性
+    var vOne = new Vue({
+        el:'#one',
+        data:{
+            msg:'这是一个实例化的属性',
+            see:true,
+            //给我们的vue对象添加了一个msg属性；他也是一个在我们vue结构中可以任意调用变量
+            lists:[{text:'文本1'},{text:'文本2'},{text:'文本3'}]
+        },
+        methods:{
+            fn:function () {
+                alert('我就是vue的实例');
+            }
+        }
+    });
+    // 面向对象思想，构造函数，在实例化过程中，我们给vue的构造函数传入一个对象；
+    // vue指令 v-bind绑定我们vue属性和默认结构属性  v-on:click='fn'
+    // v-if  v-for
+    var two = new Vue({
+        el:'#two',
+        data:{
+            lists:[{text:1}, {text:2}, {text:3}]
+        }
+    });
+</script>

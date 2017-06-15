@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .slider {
+            width: 520px;
+            height: 280px;
+            position: relative;
+        }
+
+        .slider-btn span {
+            position: absolute;
+            width: 30px;
+            height: 60px;
+            top: 110px;
+            background: rgba(255, 255, 255, .6);
+            line-height: 60px;
+            text-align: center;
+            font-weight: bolder;
+            font-size: large;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .slider-btn span:active {
+            background-color: gray;
+        }
+
+        .slider-btn span:nth-child(1) {
+            left: 10px;
+        }
+
+        .slider-btn span:nth-child(2) {
+            right: 10px;
+        }
+
+        .slider-mask {
+            background: rgba(0, 0, 0, .4);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: right;
+            height: 30px;
+            color: #fff;
+            letter-spacing: 10px;
+            line-height: 30px;
+            cursor: pointer;
+            user-select: none;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="" class="navbar-brand">用户管理</a>
+            </div>
+            <ul class="navbar-nav nav">
+                <li>
+                    <router-link to="/home">首页</router-link>
+                </li>
+                <li v-show="!login">
+                    <router-link to="/login">登陆</router-link>
+                </li>
+                <li v-show="login">
+                    <router-link to="/pro">个人信息</router-link>
+                </li>
+                <li v-show="login">
+                    <router-link to="">退出</router-link>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="home">
+    <div>首页
+        <slider :dat="imgArrs"></slider>
+    </div>
+</template>
+
+<template id="login">
+    <div>登陆页</div>
+</template>
+
+<template id="slider">
+    <div class="slider">
+        <img :src="dat[index]" alt="">
+        <div class="slider-btn">
+            <span @click="go(prev)">&lt;</span>
+            <span @click="go(next)"> &gt;</span>
+        </div>
+        <div class="slider-mask">
+            <span v-for="(dot,index) in dat" @click="go(index)">{{index+1}}</span>
+        </div>
+    </div>
+</template>
+
+<template id="profile">
+    <div>
+        <div class="col-md-4">
+            <ul class="nav nav-stacked">
+                <li>
+                    <router-link to="/pro/info">个人信息</router-link>
+                </li>
+                <li>
+                    <router-link to="/pro/about">关于我</router-link>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <router-view></router-view>
+        </div>
+    </div>
+</template>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let slider = {
+        template: '#slider',
+        props: ['dat'],//data会挂载到slider的实例上,
+        computed: {
+            prev(){
+                let p = this.index - 1;
+                if (p === -1) {
+                    p = this.dat.length - 1;
+                }
+                return p
+            },
+            next(){
+                let p = this.index + 1;
+                if (p === this.dat.length) {
+                    p = 0;
+                }
+                return p
+            }
+        },
+        methods: {
+            go(i){
+                this.index = i
+            }
+        },
+        data(){
+            return {index: 0}
+        }
+
+    };
+
+    let Home = {
+        template: '#home',
+        data(){
+            return {imgArrs: ['1.jpg', '2.jpg', '3.jpg']}
+        },
+        components: {
+            slider
+        }
+    };
+    let Login = {template: '#login'};
+    let Profile = {template: '#profile'};
+    let Info = {template: '<div>infor</div>'};
+    let Auto = {template: '<div>abor</div>'};
+    let routes = [
+        {path: '/home', component: Home},
+        {path: '/login', component: Login},
+        {
+            path: '/pro', component: Profile,
+            children: [{path: 'about', component: Auto},
+                {
+                    path: 'info', component: Info
+                }],
+            meta: {needLogin: true} //设置这个路由是需要认证的，仅仅是备注一下，没有实现抵挡的功能
+        },
+    ];
+
+    //全局的方法，可以监控任意一个路径的更新
+    let router = new VueRouter({
+        routes
+    });
+
+    router.beforeEach((to, from, next) => { //next 是一个函数，如果调用了next就继续执行，没调用则卡在这个状态上
+        //一般做验证逻辑
+        next();
+    });
+    let vm = new Vue({
+        el: '#app',
+        router,
+        data: {
+            login: false
+        },
+        methods: {
+            checkLogin(){
+                let flag = localStorage.getItem('login') || '';
+                if (flag === 'true') {
+                    this.login = true
+                } else {
+                    this.login = false
+                }
+//                alert(this.login)
+            }
+        },
+        created(){
+            this.checkLogin();
+        }
+    })
+</script>
+</body>
+</html>

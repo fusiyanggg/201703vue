@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件间数据传递,</title>
+</head>
+<body>
+<h2>子组件向父组件传递数据</h2>
+<div id="app">
+    <child @tell-age="receive"></child>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        methods: {
+            receive(data){
+                alert(data.name);
+                alert(data.age)
+            }
+        },
+        components: {
+            child: {
+                template: '<div @click="say">我是儿子 ，点击我告诉爸爸我今年几岁</div>',
+                data(){
+                    return {age: 8, name: '儿子'}
+                },
+                methods: {
+                    say(){
+                        this.$emit('tell-age', {age: this.age, name: this.name});
+                    }
+                }
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

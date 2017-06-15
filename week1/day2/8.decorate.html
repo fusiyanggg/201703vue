@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    父亲
+    <div>
+        <div>
+        </div>
+    </div>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        methods: {
+            parent(){
+                alert('f')
+            },
+            m(){
+                alert('m')
+            },
+            f(){
+                alert('asdf')
+            }
+        }
+    })
+</script>
+</body>
+</html>

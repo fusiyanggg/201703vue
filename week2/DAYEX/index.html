@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../week1/day3/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="../../week1/day3/node_modules/vue/dist/vue.js"></script>
+</head>
+<body class="container">
+<div id="app" class='btn btn-primary' @click="showtop">{{msg}}
+    <a href="http://www.baidu.com" class="text-danger" @click.prevent="alink">{{url}}</a>
+    <hr>
+    <a href="#" class="text-warning" v-on:click.stop="showin">
+        {{insert}}
+    </a>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            url: '百度',
+            msg: '我是容器',
+            insert:'冒泡'
+        },
+        methods: {
+            alink(){
+                alert('jump');
+            },
+            showtop(){
+                alert('top');
+            },
+            showin(){
+                alert("in")
+            }
+
+
+        }
+    })
+</script>
+</body>
+</html>

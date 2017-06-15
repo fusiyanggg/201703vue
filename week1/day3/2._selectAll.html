@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<div id="app">
+
+    checkbox 根据v-model的值是true还是false作为是否选中 <br>
+    <label>全选按钮 <input type="checkbox" v-model="all" @click="fn"></label> <br>
+
+    <input type="checkbox" v-for="check in checks" v-model="check.isSelect" @click="selectOne">
+</div>
+
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            all: false,
+            checks: [{isSelect: true}, {isSelect: false}, {isSelect: true}, {isSelect: true}]
+        },
+        methods: {
+            fn(){
+                this.checks.forEach(function (item) {
+                    console.log(this);
+                    item.isSelect = this.all
+
+                }, this)
+            },
+            selectOne(){
+                this.all = !this.checks.some(item => !item.isSelect)
+            },
+            computed:{
+                sel:{
+
+                }
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

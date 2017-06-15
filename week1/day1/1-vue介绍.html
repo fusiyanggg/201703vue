@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--行内属性：对应的是vue的js对象属性名，实质是获取的vue的js对象的属性名对应的属性值。-->
+<div id="app" v-bind:title="message" v-if="see">
+    <input type="text" v-model="message">
+    <span>{{message}}</span>
+</div>
+
+</body>
+</html>
+<script src="./js/vue.js"></script>
+<script>
+    // 渐进式框架:最简单的功能就是做前端渲染（模板引擎）和前端实现组件化，再进一步就是实现前端的框架分层，再进一步就是实现 机构的实现，功能化（比如前端路由），再进一步会将后台控制器（control层）东西融入进去；
+    // mvvm model view viewModel数据 视图 视图和数据的实时沟通（数据的双向绑定的----->数据发生变化我们的视图也发生变化）
+    // 通过viewModel 实现我们的响应式，所有的元素都是响应式的；
+
+    // 面向对象思想，通过构造函数的实例化模式，来创建我们的vue实例;
+    // 将父元素绑定了实例化，子元素就会继承父元素vue实例化，子元素直接可以调用vue指令和方法
+    // 在实例化的过程中我们需要，传一个参数，这个参数是一个对象，不同的属性对应我们不同的vue实例化配置的属性;
+    // el属性，vue实例化过程中，绑定的dom元素的监听。我们所监听的元素都是响应式的。就是在vue实例的js对象在不断改变的同时，页面的DOM对象也会跟着改变。
+    // vue实例的data属性用来设置我们在结构中需要的变量,只有在实例化的时候创建的属性才是响应式的，实例化完成后添加进去的属性不会响应在我们的视图中。
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '初始化vue的时间是' + new Date(),
+            see: true
+        }
+    });
+
+</script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>复习子到父</title>
+</head>
+<body>
+<div id="app">
+    <child @em="say"></child>
+</div>
+
+<template id="tmpl">
+    <div @click="fn">点我啊</div>
+</template>
+<script src="../day1/node_modules/vue/dist/vue.js"></script>
+<script>
+    let Child = {
+        template: '#tmpl',
+        data(){
+            return {msg: 'hello'}
+        },
+        methods: {
+            fn(){
+                this.$emit('em', this.msg)
+            }
+        }
+    };
+    let vm = new Vue({
+        el: '#app',
+        components: {Child},
+        methods: {
+            say(data){
+                alert(data);
+            }
+        }
+    })
+</script>
+<script src="error">
+    //这叫实例 也是根组件
+    let vm = new Vue({
+            el: '#app',
+//      template: '123' //报警告 需要一个根元素节点包裹住
+//      template: '<span>123</span>', //-> √
+//      template: '<span>123</span><span>123</span>' //要求只有一个根节点
+//      template: '<div><span>123</span><span>123</span></div>' √
+            methods: {
+                fn(data){
+                    alert(data);
+                }
+            },
+            components: {
+                fruit: {
+                    template: '#fruit',
+                    methods: {
+                        say()
+                        {
+                            this.$emit('par', 'lalal')
+                        }
+                    }
+                }
+            }
+        }
+    )
+</script>
+</body>
+</html>

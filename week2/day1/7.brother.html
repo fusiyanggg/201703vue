@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>兄弟组件数据传播</title>
+    <style>
+        span {
+            background-color: #c55;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <boy></boy>
+    <hr>
+    <girl></girl>
+</div>
+
+<template id="tmp1">
+    <div>
+        <h2>子组件1</h2>
+        男孩 <br>
+        年龄: <input type="text" v-model="age"> <br>
+        我今年 <span>{{age}}</span> 岁
+        <button @click="syn">同步</button>
+    </div>
+
+</template>
+<template id="tmp2">
+    <div>
+        <h2>子组件2</h2>
+        女孩 <br>
+        我今年 <span>{{age}}</span> 岁
+    </div>
+
+</template>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    // 兄弟组件间通过eventBus 传递数据;但只有逻辑非常简单的情况下，采用这种方式；后期都是用  VUEX
+    // ※ todo 坑！！！ 在全局中var 定义的event 在vue事件中 会存在命名冲突，vue事件中会被默认初始化一个原生事件对象event
+    // 解决办法: 1避免使用原生存在的命名 2.使用let取代var
+    var event = new Vue;
+    console.log(event)
+    // let event = new Vue;
+    //==========================================
+    var myevent = new Vue;
+    let vm = new Vue({
+        el: '#app',
+        components: {
+            boy: {
+                template: '#tmp1',
+                data(){
+                    return {age: 12}
+                },
+                methods: {
+                    syn(e){
+                        console.log(event); //->mouseEvent
+                        myevent.$emit('metoo', this.age);
+                        console.log(myevent)
+                    }
+                }
+            },
+            girl: {
+                template: '#tmp2',
+                data(){
+                    return {age: ''}
+                },
+                mounted(){
+                    myevent.$on('metoo', (data) => {
+                        this.age = data;
+                    })
+                }
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
